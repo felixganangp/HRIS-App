@@ -1,0 +1,182 @@
+<div class="max-w-3xl mx-auto">
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+    <div
+      class="px-6 py-5 bg-slate-50 border-b border-slate-200/80 flex items-center justify-between"
+    >
+      <div>
+        <h1 class="text-xl font-bold text-slate-900">Add New Employee</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          All employee atribut must be filled in with a valid format.
+        </p>
+      </div>
+      <span class="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-full"
+        >Mandatory Form</span
+      >
+    </div>
+
+    <form [formGroup]="employeeForm" (ngSubmit)="onSave()" class="p-6 sm:p-8 space-y-6">
+      @if (formErrorBanner()) {
+        <div class="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+          {{ formErrorBanner() }}
+        </div>
+      }
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <!-- Username -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Username *</label>
+          <input
+            type="text"
+            formControlName="username"
+            placeholder="budi.santoso"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl"
+          />
+          @if (hasError('username')) {
+            <p class="mt-1 text-xs text-red-600 font-medium">
+              Username is required and must be unique.
+            </p>
+          }
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Email *</label>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="budi@nusantaratech.co.id"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl"
+          />
+          @if (hasError('email')) {
+            <p class="mt-1 text-xs text-red-600 font-medium">Enter a valid email format.</p>
+          }
+        </div>
+
+        <!-- First Name -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">First Name *</label>
+          <input
+            type="text"
+            formControlName="firstName"
+            placeholder="Budi"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl"
+          />
+          @if (hasError('firstName')) {
+            <p class="mt-1 text-xs text-red-600 font-medium">First Name is required.</p>
+          }
+        </div>
+
+        <!-- Last Name -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Last Name *</label>
+          <input
+            type="text"
+            formControlName="lastName"
+            placeholder="Santoso"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl"
+          />
+          @if (hasError('lastName')) {
+            <p class="mt-1 text-xs text-red-600 font-medium">Last Name is required.</p>
+          }
+        </div>
+
+        <!-- Birth Date -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Birth Date *</label>
+          <input
+            type="datetime-local"
+            formControlName="birthDate"
+            [max]="maxTodayDateTime"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl"
+          />
+          @if (hasError('birthDate')) {
+            <p class="mt-1 text-xs text-red-600 font-medium">
+              Birth Date is required and cannot exceed today.
+            </p>
+          }
+        </div>
+
+        <!-- Basic Salary -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5"
+            >Basic Salary (Rp) *</label
+          >
+          <input
+            type="number"
+            step="any"
+            min="1"
+            formControlName="basicSalary"
+            placeholder="ex: 12500000"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl"
+          />
+          @if (hasError('basicSalary')) {
+            <p class="mt-1 text-xs text-red-600 font-medium">
+              Basic Salary must be a number greater than 0.
+            </p>
+          }
+        </div>
+
+        <!-- Status -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Status *</label>
+          <select
+            formControlName="status"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl"
+          >
+            <option value="" disabled>Choose Employee Status</option>
+            @for (st of statuses; track st) {
+              <option [value]="st">{{ st }}</option>
+            }
+          </select>
+          @if (hasError('status')) {
+            <p class="mt-1 text-xs text-red-600 font-medium">Employee status is required.</p>
+          }
+        </div>
+
+        <!-- Searchable Dropdown Group -->
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Group *</label>
+          <app-searchable-select-input
+            formControlName="group"
+            [options]="allGroups"
+            placeholder="Choose Group"
+            searchPlaceholder="Search group name..."
+            emptyText="Group not found."
+            [hasError]="hasError('group')"
+          />
+        </div>
+
+        <!-- Description -->
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5"
+            >Description (Datetime) *</label
+          >
+          <input
+            type="datetime-local"
+            formControlName="description"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl"
+          />
+          @if (hasError('description')) {
+            <p class="mt-1 text-xs text-red-600 font-medium">Description is required.</p>
+          }
+        </div>
+      </div>
+
+      <div class="pt-5 border-t border-slate-200 flex justify-end gap-3">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-6 py-2.5 bg-white hover:bg-slate-100 text-slate-700 font-semibold text-sm border border-slate-300 rounded-xl cursor-pointer"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="px-7 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-xl cursor-pointer"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

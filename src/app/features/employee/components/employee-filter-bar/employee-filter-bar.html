@@ -1,0 +1,95 @@
+<div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 mbe-7">
+  <div class="flex items-center justify-between mb-3">
+    <span
+      class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5"
+    >
+      <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+        />
+      </svg>
+      Filter
+    </span>
+
+    @if (hasActiveFilters()) {
+      <button
+        type="button"
+        (click)="resetFilters.emit()"
+        class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 cursor-pointer"
+      >
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+        Reset Filter
+      </button>
+    }
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+    <!-- Parameter 1: Keyword Search -->
+    <div class="md:col-span-5">
+      <label for="filterKeyword" class="block text-xs font-medium text-slate-600 mb-1">
+        Search Employee
+      </label>
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </span>
+        <input
+          id="filterKeyword"
+          type="text"
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+          placeholder="Search by name, username, or email..."
+          class="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
+        />
+      </div>
+    </div>
+
+    <!-- Parameter 2: Group Filter (SearchableSelectComponent) -->
+    <div class="md:col-span-4">
+      <label class="block text-xs font-medium text-slate-600 mb-1"> Group / Departemen </label>
+      <app-searchable-select-input
+        [options]="groupOptions()"
+        [value]="groupDisplayValue()"
+        (valueChange)="onGroupValueChange($event)"
+        placeholder="Semua Group"
+        searchPlaceholder="Cari group..."
+        emptyText="Group tidak ditemukan."
+      />
+    </div>
+
+    <!-- Parameter 3: Status Filter -->
+    <div class="md:col-span-3">
+      <label for="filterStatus" class="block text-xs font-medium text-slate-600 mb-1">
+        Employee Status
+      </label>
+      <select
+        id="filterStatus"
+        [value]="selectedStatus()"
+        (change)="onStatusChange($event)"
+        class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all cursor-pointer"
+      >
+        <option value="">All Statuses</option>
+        @for (st of statuses(); track st) {
+          <option [value]="st">{{ st }}</option>
+        }
+      </select>
+    </div>
+  </div>
+</div>

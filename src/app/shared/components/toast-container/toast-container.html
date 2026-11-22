@@ -1,0 +1,77 @@
+<div
+  class="fixed top-4 right-4 z-50 flex flex-col gap-3 w-full max-w-sm px-4 sm:px-0 pointer-events-none"
+>
+  @for (toast of toasts(); track toast.id) {
+    <div
+      class="pointer-events-auto rounded-xl p-4 shadow-xl border flex items-start gap-3 transition-all"
+      [class.bg-amber-50]="toast.type === 'warning'"
+      [class.border-amber-400]="toast.type === 'warning'"
+      [class.text-amber-950]="toast.type === 'warning'"
+      [class.bg-red-600]="toast.type === 'danger'"
+      [class.border-red-700]="toast.type === 'danger'"
+      [class.text-white]="toast.type === 'danger'"
+      [class.bg-emerald-600]="toast.type === 'success'"
+      [class.border-emerald-700]="toast.type === 'success'"
+      [class.text-white]="toast.type === 'success'"
+    >
+      <div class="shrink-0 mt-0.5">
+        @if (toast.type === 'warning') {
+          <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            />
+          </svg>
+        } @else if (toast.type === 'danger') {
+          <svg class="w-5 h-5 text-red-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        } @else {
+          <svg
+            class="w-5 h-5 text-emerald-100"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        }
+      </div>
+
+      <!-- Content -->
+      <div class="flex-1 text-xs">
+        <div class="font-bold text-sm">{{ toast.title }}</div>
+        <p class="mt-0.5 opacity-95 leading-relaxed">{{ toast.message }}</p>
+      </div>
+
+      <!-- Dismiss Button -->
+      <button
+        type="button"
+        (click)="dismiss.emit(toast.id)"
+        class="shrink-0 opacity-70 hover:opacity-100 focus:outline-none cursor-pointer"
+        title="Tutup notifikasi"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+  }
+</div>

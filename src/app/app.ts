@@ -1,12 +1,23 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterOutlet } from '@angular/router';
+import { EmployeeStateService } from './core/services/employee-state.service';
+import { Header } from './shared/components/header/header';
+import { ToastContainer } from './shared/components/toast-container/toast-container';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [CommonModule, RouterOutlet, Header, ToastContainer],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('hris-app');
+  readonly state = inject(EmployeeStateService);
+  private router = inject(Router);
+
+  onLogout(): void {
+    this.state.logout();
+    this.router.navigate(['/login']);
+  }
 }
