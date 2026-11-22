@@ -8,7 +8,7 @@
   </p>
 </div>
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Angular:** - The framework for building scalable web apps
 - **Typescript:** - Strongly typed superset of JavaScript
@@ -29,7 +29,7 @@
 Requires [Bun](https://bun.sh/docs/installation).
 
 ```bash
-git clone https://github.com/
+git clone https://github.com/felixganangp/HRIS-App.git
 cd folder
 bun run setup
 bun run start
