@@ -14,12 +14,12 @@
 - **Typescript:** - Strongly typed superset of JavaScript
 - **Tailwind:** - Utility first CSS framework
 
-## Functionality overview
+# Functionality overview
 
 **General functionality:**
 
 - Authenticate users
-- CRU\* employee
+- CRUD employee
 - Search and Filter employee
 - GET and display detail employee data
 - Responsive Design
