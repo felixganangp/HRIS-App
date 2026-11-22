@@ -31,6 +31,6 @@ Requires [Bun](https://bun.sh/docs/installation).
 ```bash
 git clone https://github.com/felixganangp/HRIS-App.git
 cd folder
-bun run setup
-bun run start
+bun install
+bun start
 ```
